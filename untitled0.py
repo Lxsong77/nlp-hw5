@@ -12,54 +12,55 @@ You have previously learned to use the Hugging Face library with a BERT pre-trai
 
 ###Download dataset
 """
-
 import subprocess
-subprocess.check_call(["pip", "install", "kaggle"])
-
-import os
-os.system("kaggle datasets download -d annbengardt/fairy-tales-from-around-the-world -p ~/nlp-hw5")
-
-
-# Download latest version
-path = kagglehub.dataset_download("annbengardt/fairy-tales-from-around-the-world")
-
-print("Path to dataset files:", path)
-
 import os
 import random
 import shutil
 
-# Path to the directory containing all the .txt files
-source_dir = "/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales"
-train_dir = os.path.join(source_dir, "train")
-validation_dir = os.path.join(source_dir, "validation")
+# Step 1: Install the kaggle package
+subprocess.check_call(["pip", "install", "kaggle"])
 
-# Create train and validation directories if they don't exist
+# Step 2: Download the dataset using the kaggle API
+os.system("kaggle datasets download -d annbengardt/fairy-tales-from-around-the-world -p ~/nlp-hw5")
+
+# Step 3: Unzip the downloaded dataset
+import zipfile
+
+# Path to the downloaded zip file
+zip_path = os.path.expanduser("~/nlp-hw5/fairy-tales-from-around-the-world.zip")
+extract_to = os.path.expanduser("~/nlp-hw5/fairy_tales")
+
+# Unzip the file
+with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+    zip_ref.extractall(extract_to)
+
+# Step 4: Define source and destination directories
+source_dir = os.path.join(extract_to, "fairy_tales")  # Adjust based on the actual folder structure after extraction
+train_dir = os.path.join(extract_to, "train")
+validation_dir = os.path.join(extract_to, "validation")
+
+# Step 5: Create train and validation directories if they don't exist
 os.makedirs(train_dir, exist_ok=True)
 os.makedirs(validation_dir, exist_ok=True)
 
-# Get list of all .txt files
+# Step 6: Get a list of all .txt files
 all_files = [f for f in os.listdir(source_dir) if f.endswith('.txt')]
 
-# Shuffle files for random distribution
+# Step 7: Shuffle and split files for 80/20 train-validation
 random.shuffle(all_files)
-
-# Calculate split index for 80/20 split
 split_index = int(0.8 * len(all_files))
-
-# Split files into training and validation sets
 train_files = all_files[:split_index]
 validation_files = all_files[split_index:]
 
-# Move files to train directory
+# Step 8: Move files to train and validation directories
 for file_name in train_files:
     shutil.move(os.path.join(source_dir, file_name), os.path.join(train_dir, file_name))
-
-# Move files to validation directory
 for file_name in validation_files:
     shutil.move(os.path.join(source_dir, file_name), os.path.join(validation_dir, file_name))
 
 print(f"Moved {len(train_files)} files to the train directory and {len(validation_files)} files to the validation directory.")
+
+
 
 import os
 
