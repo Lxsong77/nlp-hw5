@@ -74,8 +74,9 @@ def convert_to_utf8(directory):
                 f.write(content)
 
 # Convert train and validation folders to UTF-8 encoding
-convert_to_utf8("/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales/train")
-convert_to_utf8("/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales/validation")
+convert_to_utf8(os.path.expanduser("~/nlp-hw5/fairy_tales/train"))
+convert_to_utf8(os.path.expanduser("~/nlp-hw5/fairy_tales/validation"))
+
 
 #!pip install datasets
 
@@ -88,9 +89,10 @@ from datasets import load_dataset
 
 # Load all .txt files from the train and validation directories
 datasets = load_dataset("text", data_files={
-    "train": "/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales/train/*.txt",
-    "validation": "/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales/validation/*.txt"
+    "train": os.path.expanduser("~/nlp-hw5/fairy_tales/train/*.txt"),
+    "validation": os.path.expanduser("~/nlp-hw5/fairy_tales/validation/*.txt")
 })
+
 
 """###Task 1: Define your tokenization and text processing steps."""
 
