@@ -82,6 +82,7 @@ convert_to_utf8(os.path.expanduser("~/nlp-hw5/fairy_tales/validation"))
 
 # Replace !pip install datasets with:
 import subprocess
+subprocess.check_call(["pip", "install", "--upgrade", "datasets"])
 subprocess.check_call(["pip", "install", "datasets"])
 
 
