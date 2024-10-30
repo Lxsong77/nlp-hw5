@@ -13,7 +13,12 @@ You have previously learned to use the Hugging Face library with a BERT pre-trai
 ###Download dataset
 """
 
-import kagglehub
+import subprocess
+subprocess.check_call(["pip", "install", "kaggle"])
+
+import os
+os.system("kaggle datasets download -d annbengardt/fairy-tales-from-around-the-world -p ~/nlp-hw5")
+
 
 # Download latest version
 path = kagglehub.dataset_download("annbengardt/fairy-tales-from-around-the-world")
@@ -71,7 +76,12 @@ def convert_to_utf8(directory):
 convert_to_utf8("/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales/train")
 convert_to_utf8("/root/.cache/kagglehub/datasets/annbengardt/fairy-tales-from-around-the-world/versions/1/fairy_tales/validation")
 
-!pip install datasets
+#!pip install datasets
+
+# Replace !pip install datasets with:
+import subprocess
+subprocess.check_call(["pip", "install", "datasets"])
+
 
 from datasets import load_dataset
 
